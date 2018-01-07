@@ -10,3 +10,9 @@ export default {
 }
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+/* @import '../static/css/components.min.css';
+@import '../static/css/layout.min.css'; */
+</style>
+

@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import DefaultPage from '@/components/DefaultPage'
-import HelloWorld from '@/components/HelloWorld'
-import Login from '@/components/Login'
-import Platform from '@/components/Platform'
+import HelloWorld from '@/Models/HelloWorld'
+import Login from '@/Models/Login'
+import Platform from '@/Models/Platform'
 
 Vue.use(Router)
 
