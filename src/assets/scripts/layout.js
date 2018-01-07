@@ -7,9 +7,9 @@ import App from './app'
 
 var Layout = function () {
 
-    var layoutImgPath = '../img/';
+    var layoutImgPath = 'layouts/layout/img/';
 
-    var layoutCssPath = '../css/';
+    var layoutCssPath = 'layouts/layout/css/';
 
     var resBreakpointMd = App.getResponsiveBreakpoint('md');
 
@@ -179,7 +179,7 @@ var Layout = function () {
         }
 
         // handle sidebar link click
-        $('body').on('click', '.page-sidebar-menu li > a.nav-toggle, .page-sidebar-menu li > a > span.nav-toggle', function (e) {
+        $('.page-sidebar-menu').on('click', 'li > a.nav-toggle, li > a > span.nav-toggle', function (e) {
             var that = $(this).closest('.nav-item').children('.nav-link');
 
             if (App.getViewPort().width >= resBreakpointMd && !$('.page-sidebar-menu').attr("data-initialized") && $('body').hasClass('page-sidebar-closed') && that.parent('li').parent('.page-sidebar-menu').length === 1) {
@@ -396,6 +396,12 @@ var Layout = function () {
 
     // Hanles sidebar toggler
     var handleSidebarToggler = function () {
+        /**
+        if (Cookies && Cookies.get('sidebar_closed') === '1' && App.getViewPort().width >= resBreakpointMd) {
+            $('body').addClass('page-sidebar-closed');
+            $('.page-sidebar-menu').addClass('page-sidebar-menu-closed');
+        }
+        */
 
         // handle sidebar show/hide
         $('body').on('click', '.sidebar-toggler', function (e) {
@@ -502,7 +508,7 @@ var Layout = function () {
             });
         }
 
-        $('body').on("click", ".scroll-to-top", function (e) {
+        $('.scroll-to-top').click(function (e) {
             e.preventDefault();
             $('html, body').animate({ scrollTop: 0 }, duration);
             return false;
@@ -573,7 +579,7 @@ var Layout = function () {
         initSidebar: function ($state) {
             //layout handlers
             handleFixedSidebar(); // handles fixed sidebar menu
-            handleSidebarMenu(); // handles main menu           
+            handleSidebarMenu(); // handles main menu
             handleSidebarToggler(); // handles sidebar hide/show
 
             if (App.isAngularJsApp()) {
@@ -670,10 +676,10 @@ var Layout = function () {
 
 }();
 
-if (App.isAngularJsApp() === false) {
-    //     // jQuery(document).ready(function() {    
-    Layout.init();
-    // Layout.init(); // init metronic core componets
-    //     // });
-}
+// if (App.isAngularJsApp() === false) {
+//     //     // jQuery(document).ready(function() {    
+//     Layout.init();
+//     // Layout.init(); // init metronic core componets
+//     //     // });
+// }
 export default Layout;

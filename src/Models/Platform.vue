@@ -1585,15 +1585,32 @@
 <script>
 import $ from "jquery";
 
-import "../assets/scripts/app";
-import "../assets/scripts/layout";
-import "../assets/scripts/demo";
-import "../assets/scripts/quick-sidebar";
+import App from "../assets/scripts/app";
+import Layout from "../assets/scripts/layout";
+import Demo from "../assets/scripts/demo";
+import QuickSidebar from "../assets/scripts/quick-sidebar";
 
 export default {
   name: "Platform",
-  beforeCreate:function(){
-      $("body").addClass("page-header-fixed page-sidebar-closed-hide-logo page-content-white");
+  beforeCreate: function() {
+    $("body").addClass(
+      "page-header-fixed page-sidebar-closed-hide-logo page-content-white"
+    );
+  },
+  mounted: function() {
+    App.init();
+
+    if (App.isAngularJsApp() === false) {
+      Layout.init();
+    }
+
+    if (App.isAngularJsApp() === false) {
+      Demo.init(); // init metronic core componets
+    }
+
+    if (App.isAngularJsApp() === false) {
+      QuickSidebar.init(); // init metronic core componets
+    }
   }
 };
 </script>
