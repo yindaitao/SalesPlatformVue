@@ -4,6 +4,7 @@ import DefaultPage from '@/components/DefaultPage'
 import HelloWorld from '@/Models/HelloWorld'
 import Login from '@/Models/Login'
 import Platform from '@/Models/Platform'
+// import SidebarMenu from '@/components/SidebarMenu'
 
 Vue.use(Router)
 
@@ -28,6 +29,13 @@ export default new Router({
       path: '/Platform',
       name: 'Platform',
       component: Platform
+      // children: [
+      //   {
+      //     path: 'SidebarMenu',
+      //     name: 'SidebarMenu',
+      //     component: SidebarMenu
+      //   }
+      // ]
     }
   ]
 })
