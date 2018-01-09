@@ -90,7 +90,7 @@ export default {
           grant_type: "password",
           username: this.userName,
           password: paw
-        }
+        },
       })
         .done(function(data) {
           try {
