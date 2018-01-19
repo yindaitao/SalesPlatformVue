@@ -636,7 +636,7 @@
   </template>
   
 <script>
-const hostURL = "http://182.92.232.233:8884";
+import hostURL from '../Api/httpApi'
 import $ from "jquery";
 import axios from "axios";
 
@@ -664,14 +664,18 @@ export default {
     //   .catch(function(e) {
     //     console.log(JSON.stringify(e));
     //   });
+    // var cookie = window.document.cookie.getItem(".AspNet.Cookies");
+    var token = window.localStorage.getItem("currentUserToken");
     $.ajax({
       url: hostURL + "/api/Menu/GetMenuList",
       type: "POST",
-      xhrFields: {
-        withCredentials: true
-      },
+      xhrFields: { withCredentials: true }, // 发送凭据
       crossDomain: true,
-      dataType: "json",
+      //   headers: {
+      //     //Bearer是我的项目需要的,你可以按你的需求规范格式
+      //     Authorization: "grant_type " + token
+      //   },
+      dataType: "jsonp",
       contentType: "application/json",
       data: JSON.stringify({
         type: "Search",

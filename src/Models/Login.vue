@@ -48,8 +48,7 @@
 
 <script>
 "use strict";
-const hostURL = "http://182.92.232.233:8884";
-
+import hostURL from '../Api/httpApi'
 import router from "../router";
 import $ from "jquery";
 import "../assets/backstretch/jquery.backstretch";
@@ -90,11 +89,15 @@ export default {
           grant_type: "password",
           username: this.userName,
           password: paw
-        },
+        }
       })
         .done(function(data) {
           try {
             if (data !== undefined) {
+              window.localStorage.setItem(
+                "currentUserToken",
+                data.access_token
+              );
               router.push("Platform");
             } else {
               console.log("出现未知错误。");
