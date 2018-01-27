@@ -636,66 +636,40 @@
   </template>
   
 <script>
-import hostURL from '../Api/httpApi'
+import relayApi from "../Api/relayApi";
+import requestApi from "../Api/requestApi";
 import $ from "jquery";
-import axios from "axios";
 
 export default {
   created: function() {
-    // axios
-    //   .post(
-    //     hostURL + "/api/Menu/GetMenuList",
-    //     JSON.stringify({
-    //       type: "Search",
-    //       Parameter: {
-    //         Conditions: [
-    //           {
-    //             FieldName: "Parent",
-    //             Operation: "EQUAL",
-    //             ConditionValue: "-1"
-    //           }
-    //         ]
-    //       }
-    //     })
-    //   )
-    //   .then(function(response) {
-    //     console.log(JSON.stringify(response));
-    //   })
-    //   .catch(function(e) {
-    //     console.log(JSON.stringify(e));
-    //   });
-    // var cookie = window.document.cookie.getItem(".AspNet.Cookies");
     var token = window.localStorage.getItem("currentUserToken");
+    requestApi.path = "/api/SalesOrder/GetSalesOrders";
+    requestApi.data = JSON.stringify({
+      type: "Search",
+      Parameter: {
+        Conditions: [
+          {
+            FieldName: "DocEntry",
+            Operation: "EQUAL",
+            ConditionValue: 8
+          }
+        ]
+      }
+    });
     $.ajax({
-      url: hostURL + "/api/Menu/GetMenuList",
+      url: relayApi,
       type: "POST",
-      xhrFields: { withCredentials: true }, // 发送凭据
+      xhrFields: { withCredentials: true },
       crossDomain: true,
-      //   headers: {
-      //     //Bearer是我的项目需要的,你可以按你的需求规范格式
-      //     Authorization: "grant_type " + token
-      //   },
-      dataType: "jsonp",
-      contentType: "application/json",
-      data: JSON.stringify({
-        type: "Search",
-        Parameter: {
-          Conditions: [
-            {
-              FieldName: "Parent",
-              Operation: "EQUAL",
-              ConditionValue: "-1"
-            }
-          ]
-        }
-      })
-    })
-      .done(function(data) {
-        console.log(JSON.stringify(data));
-      })
-      .fail(function(error) {
-        console.log(error);
-      });
+      data: requestApi,
+      success: function(response) {
+        console.log("successfully");
+        console.log(response);
+      }
+    }).fail(function(error) {
+      console.log("error");
+      console.log(error);
+    });
   }
 };
 </script>

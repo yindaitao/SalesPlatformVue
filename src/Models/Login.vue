@@ -48,7 +48,8 @@
 
 <script>
 "use strict";
-import hostURL from '../Api/httpApi'
+import relayApi from "../Api/relayApi";
+import requestApi from "../Api/requestApi";
 import router from "../router";
 import $ from "jquery";
 import "../assets/backstretch/jquery.backstretch";
@@ -81,34 +82,22 @@ export default {
   methods: {
     submit: function() {
       var paw = md5.hex_md5(this.password);
+      requestApi.path = "/Token";
+      requestApi.data =
+        "grant_type=password&username=" + this.userName + "&password=" + paw;
       //访问
       $.ajax({
-        url: hostURL + "/Token",
+        url: relayApi,
         type: "POST",
-        data: {
-          grant_type: "password",
-          username: this.userName,
-          password: paw
+        data: requestApi,
+        success: function(response) {
+          requestApi.cookie = response.cookie;
+          router.push("Platform");
+          console.log(response);
         }
-      })
-        .done(function(data) {
-          try {
-            if (data !== undefined) {
-              window.localStorage.setItem(
-                "currentUserToken",
-                data.access_token
-              );
-              router.push("Platform");
-            } else {
-              console.log("出现未知错误。");
-            }
-          } catch (e) {
-            console.log(e);
-          }
-        })
-        .fail(function(error) {
-          console.log(error);
-        });
+      }).fail(function(error) {
+        console.log(error);
+      });
     }
   },
   //实例被销毁时执行
