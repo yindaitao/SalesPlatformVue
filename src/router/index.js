@@ -6,6 +6,9 @@ import Platform from '@/Models/Platform'
 Vue.use(Router)
 
 var routerObj = new Router({
+  mode: 'history',
+  hashbang: false,
+  history: true,
   routes: [
     {
       path: '/',
