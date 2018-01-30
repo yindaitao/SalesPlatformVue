@@ -2,10 +2,14 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/Models/Login'
 import Platform from '@/Models/Platform'
+import cookie from '../Api/cookie'
 
+import SalesOrderList from '@/models/SalesOrderList'
+
+//插件
 Vue.use(Router)
 
-var routerObj = new Router({
+let routerObj = new Router({
   mode: 'history',
   hashbang: false,
   history: true,
@@ -13,22 +17,40 @@ var routerObj = new Router({
     {
       path: '/',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: {
+        authorization: false
+      }
     },
     {
       path: '/Platform',
       name: 'Platform',
-      component: Platform
+      component: Platform,
+      meta: {
+        authorization: true
+      },
+      children: [
+        {
+          path: '/SalesOrderList',
+          name: 'SalesOrderList',
+          component: SalesOrderList,
+          meta: {
+            authorization: true
+          }
+        }
+      ]
     }
   ]
 })
 
+/*
+  导航钩子
+*/
 routerObj.beforeEach((to, from, next) => {
-  let token = window.localStorage.getItem('currentUserToken')
-  if (to.name !== 'Login' && from.name !== null && token === null) {
-    next({ path: '/' })
-  }
-  else {
+  console.log(`<============ ${to.name} =================>`)
+  if (cookie.login === false && (to.meta.authorization === undefined || to.meta.authorization === true)) {
+    next({ name: 'Login' })
+  } else {
     next()
   }
 })

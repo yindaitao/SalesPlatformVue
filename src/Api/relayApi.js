@@ -1,3 +1,5 @@
-const apiUrl = 'http://59.110.235.29:3000/relay'
+/*
+    设置转发的服务器
+*/
 
-module.exports = apiUrl;
+export default 'http://59.110.235.29:3000/relay'

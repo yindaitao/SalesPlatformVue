@@ -12,7 +12,8 @@
         <div class="content">
             <!-- BEGIN LOGIN FORM -->
             <div class="login-form">
-                <div class="form-title">
+
+                <div class="form-title" v-if="errorMessage===null">
                     <span class="form-title">Welcome.</span>
                     <span class="form-subtitle">Please login.</span>
                 </div>
@@ -48,9 +49,11 @@
 
 <script>
 "use strict";
-import relayApi from "../Api/relayApi";
-import requestApi from "../Api/requestApi";
+import relayApi from "../Api/relayApi"; //转发服务器地址
+import requestApi from "../Api/requestApi"; //ajax请求参数
+import cookie from "../Api/cookie"; //记录登陆后Cookie的值
 import router from "../router";
+
 import $ from "jquery";
 import "../assets/backstretch/jquery.backstretch";
 import * as md5 from "../assets/md5encrypt";
@@ -76,7 +79,8 @@ export default {
   data() {
     return {
       userName: "manager",
-      password: ""
+      password: "",
+      errorMessage: null
     };
   },
   methods: {
@@ -91,12 +95,14 @@ export default {
         type: "POST",
         data: requestApi,
         success: function(response) {
-          requestApi.cookie = response.cookie;
+          cookie.login = true;
+          cookie.value = response.cookie;
           router.push("Platform");
           console.log(response);
         }
       }).fail(function(error) {
-        console.log(error);
+        console.log(error.responseText);
+        this.errorMessage = error.responseText;
       });
     }
   },
