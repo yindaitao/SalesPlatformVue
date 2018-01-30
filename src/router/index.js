@@ -4,9 +4,10 @@ import Login from '@/Models/Login'
 import Platform from '@/Models/Platform'
 import cookie from '../Api/cookie'
 
+import errorPage from '@/Models/404'
 import SalesOrderList from '@/models/SalesOrderList'
 
-//插件
+// 插件
 Vue.use(Router)
 
 let routerObj = new Router({
@@ -34,6 +35,14 @@ let routerObj = new Router({
           path: '/SalesOrderList',
           name: 'SalesOrderList',
           component: SalesOrderList,
+          meta: {
+            authorization: true
+          }
+        },
+        {
+          path: '/errorPage',
+          name: 'errorPage',
+          component: errorPage,
           meta: {
             authorization: true
           }

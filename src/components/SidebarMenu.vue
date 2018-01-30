@@ -211,25 +211,26 @@ export default {
     let vue = this;
     //获取当前用户可使用的菜单项
     requestApi.cookie = cookie.value;
-    requestApi.path = "/api/Menu/GetMenuList";
-    requestApi.data = JSON.stringify({
-      type: "Search",
-      Parameter: {
-        Conditions: [
-          {
-            FieldName: "Activated",
-            Operation: "EQUAL",
-            ConditionValue: "Y",
-            Relationship: "AND"
-          },
-          {
-            FieldName: "MenuDataType",
-            Operation: "NOT_EQUAL",
-            ConditionValue: "O"
-          }
-        ]
-      }
-    });
+    requestApi.path = "/api/Menu/Get";
+    requestApi.method = "GET";
+    // requestApi.data = JSON.stringify({
+    //   type: "Search",
+    //   Parameter: {
+    //     Conditions: [
+    //       {
+    //         FieldName: "Activated",
+    //         Operation: "EQUAL",
+    //         ConditionValue: "Y",
+    //         Relationship: "AND"
+    //       },
+    //       {
+    //         FieldName: "MenuDataType",
+    //         Operation: "NOT_EQUAL",
+    //         ConditionValue: "O"
+    //       }
+    //     ]
+    //   }
+    // });
     $.ajax({
       url: relayApi,
       type: "POST",
@@ -237,7 +238,8 @@ export default {
       success: function(response) {
         console.log(requestApi.path + " successfully");
         let jsonData = JSON.parse(response);
-        jsonData.data.forEach(item => {
+        console.log(jsonData);
+        jsonData.forEach(item => {
           vue.menus.push(item);
         });
       }
@@ -249,8 +251,7 @@ export default {
   components: {
     myMenuItem
   },
-  methods: {
-  }
+  methods: {}
 };
 </script>
   

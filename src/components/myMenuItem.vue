@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import router from "../router";
+
 export default {
   name: "myMenuItem",
   props: {
@@ -22,6 +24,11 @@ export default {
     menuClickEvent: function(menu) {
       console.log("<============ myMenuItem Click =============>");
       console.log(JSON.stringify(menu));
+      if (menu.menuDataCode === "SalesOrderList") {
+        router.push("SalesOrderList");
+      } else {
+        router.push("errorPage");
+      }
       // if (menu.ChildItems.length > 0) {
       //   for (let i = 0; this.children.length > 0; i++) {
       //     this.childMenus.pop(i);
