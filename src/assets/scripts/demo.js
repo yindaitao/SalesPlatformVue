@@ -2,13 +2,14 @@
 Demo script to handle the theme demo
 **/
 'use strict'
-import $ from "jquery"
-import App from './app'
+import $ from "jquery";
+import App from './app';
+import Layout from './layout';
 
-var Demo = function() {
+var Demo = function () {
 
     // Handle Theme Settings
-    var handleTheme = function() {
+    var handleTheme = function () {
 
         var panel = $('.theme-panel');
 
@@ -24,13 +25,13 @@ var Demo = function() {
         }
 
         //handle theme layout
-        var resetLayout = function() {
+        var resetLayout = function () {
             $("body").
-            removeClass("page-boxed").
-            removeClass("page-footer-fixed").
-            removeClass("page-sidebar-fixed").
-            removeClass("page-header-fixed").
-            removeClass("page-sidebar-reversed");
+                removeClass("page-boxed").
+                removeClass("page-footer-fixed").
+                removeClass("page-sidebar-fixed").
+                removeClass("page-header-fixed").
+                removeClass("page-sidebar-reversed");
 
             $('.page-header > .page-header-inner').removeClass("container");
 
@@ -45,14 +46,14 @@ var Demo = function() {
                 $('.scroll-to-top').insertAfter('.page-footer');
             }
 
-             $(".top-menu > .navbar-nav > li.dropdown").removeClass("dropdown-dark");
+            $(".top-menu > .navbar-nav > li.dropdown").removeClass("dropdown-dark");
 
             $('body > .container').remove();
         };
 
         var lastSelectedLayout = '';
 
-        var setLayout = function() {
+        var setLayout = function () {
 
             var layoutOption = $('.layout-option', panel).val();
             var sidebarOption = $('.sidebar-option', panel).val();
@@ -186,9 +187,9 @@ var Demo = function() {
         };
 
         // handle theme colors
-        var setColor = function(color) {
-            var color_ = (App.isRTL() ? color + '-rtl' : color);
-            $('#style_color').attr("href", Layout.getLayoutCssPath() + 'themes/' + color_ + ".min.css");
+        var setColor = function (color) {
+            var color = (App.isRTL() ? color + '-rtl' : color);
+            $('#style_color').attr("href", Layout.getLayoutCssPath() + 'themes/' + color + ".min.css");
             if (color == 'light2') {
                 $('.page-logo img').attr('src', Layout.getLayoutImgPath() + 'logo-invert.png');
             } else {
@@ -196,19 +197,19 @@ var Demo = function() {
             }
         };
 
-        $('.toggler', panel).click(function() {
+        $('.toggler', panel).click(function () {
             $('.toggler').hide();
             $('.toggler-close').show();
             $('.theme-panel > .theme-options').show();
         });
 
-        $('.toggler-close', panel).click(function() {
+        $('.toggler-close', panel).click(function () {
             $('.toggler').show();
             $('.toggler-close').hide();
             $('.theme-panel > .theme-options').hide();
         });
 
-        $('.theme-colors > ul > li', panel).click(function() {
+        $('.theme-colors > ul > li', panel).click(function () {
             var color = $(this).attr("data-style");
             setColor(color);
             $('ul > li', panel).removeClass("current");
@@ -256,34 +257,34 @@ var Demo = function() {
     };
 
     // handle theme style
-    var setThemeStyle = function(style) {
+    var setThemeStyle = function (style) {
         var file = (style === 'rounded' ? 'components-rounded' : 'components');
         file = (App.isRTL() ? file + '-rtl' : file);
 
         $('#style_components').attr("href", App.getGlobalCssPath() + file + ".min.css");
 
-        if (typeof Cookies !== "undefined") {
-            Cookies.set('layout-style-option', style);
-        }
+        // if (typeof Cookies !== "undefined") {
+        //     Cookies.set('layout-style-option', style);
+        // }
     };
 
     return {
 
         //main function to initiate the theme
-        init: function() {
+        init: function () {
             // handles style customer tool
-            handleTheme(); 
-            
+            handleTheme();
+
             // handle layout style change
-            $('.theme-panel .layout-style-option').change(function() {
-                 setThemeStyle($(this).val());
+            $('.theme-panel .layout-style-option').change(function () {
+                setThemeStyle($(this).val());
             });
 
-            // set layout style from cookie
-            if (typeof Cookies !== "undefined" && Cookies.get('layout-style-option') === 'rounded') {
-                setThemeStyle(Cookies.get('layout-style-option'));
-                $('.theme-panel .layout-style-option').val(Cookies.get('layout-style-option'));
-            }            
+            // // set layout style from cookie
+            // if (typeof Cookies !== "undefined" && Cookies.get('layout-style-option') === 'rounded') {
+            //     setThemeStyle(Cookies.get('layout-style-option'));
+            //     $('.theme-panel .layout-style-option').val(Cookies.get('layout-style-option'));
+            // }            
         }
     };
 

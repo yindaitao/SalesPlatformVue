@@ -195,6 +195,9 @@
 </template>
 
 <script>
+//引用jQuery库
+import $ from 'jquery';
+
 import relayApi from "../Api/relayApi";
 import requestApi from "../Api/requestApi";
 import cookie from "../Api/cookie";

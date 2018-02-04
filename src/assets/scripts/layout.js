@@ -36,7 +36,7 @@ var Layout = (function () {
             }
         } else {
             if (body.hasClass('page-sidebar-fixed')) {
-                height = _calculateFixedSidebarViewportHeight()
+                height = calculateFixedSidebarViewportHeight()
                 if (body.hasClass('page-footer-fixed') === false) {
                     height = height - $('.page-footer').outerHeight()
                 }
@@ -350,7 +350,7 @@ var Layout = (function () {
     }
 
     // Helper function to calculate sidebar height for fixed sidebar layout.
-    var _calculateFixedSidebarViewportHeight = function () {
+    var calculateFixedSidebarViewportHeight = function () {
         var sidebarHeight = App.getViewPort().height - $('.page-header').outerHeight(true)
         if ($('body').hasClass('page-footer-fixed')) {
             sidebarHeight = sidebarHeight - $('.page-footer').outerHeight()
@@ -371,7 +371,7 @@ var Layout = (function () {
         }
 
         if (App.getViewPort().width >= resBreakpointMd && !$('body').hasClass('page-sidebar-menu-not-fixed')) {
-            menu.attr('data-height', _calculateFixedSidebarViewportHeight())
+            menu.attr('data-height', calculateFixedSidebarViewportHeight())
             App.destroySlimScroll(menu)
             App.initSlimScroll(menu)
             handleSidebarAndContentHeight()

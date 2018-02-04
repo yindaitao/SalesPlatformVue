@@ -2,8 +2,9 @@
 Core script to handle the entire theme and core functions
 **/
 'use strict'
-import $ from "jquery"
-import App from './app'
+import $ from "jquery";
+import App from './app';
+import Layout from './layout';
 
 var QuickSidebar = function () {
 
@@ -124,7 +125,7 @@ var QuickSidebar = function () {
 
             alertListHeight = wrapper.height() - 80 - wrapper.find('.nav-justified > .nav-tabs').outerHeight();
 
-            // alerts list 
+            //alerts list
             App.destroySlimScroll(alertList);
             alertList.attr("data-height", alertListHeight);
             App.initSlimScroll(alertList);
@@ -144,8 +145,7 @@ var QuickSidebar = function () {
 
             settingsListHeight = wrapper.height() - 80 - wrapper.find('.nav-justified > .nav-tabs').outerHeight();
 
-            // alerts list 
-            App.destroySlimScroll(settingsList);
+            App.destroySlimScroll(settingsList);//alerts list
             settingsList.attr("data-height", settingsListHeight);
             App.initSlimScroll(settingsList);
         };

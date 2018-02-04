@@ -62,6 +62,7 @@
 </template>
 
 <script>
+
 //css
 import "../assets/css/components.min.css";
 import "../assets/css/layout.min.css";

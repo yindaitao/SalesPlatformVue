@@ -3,7 +3,7 @@ import $ from "jquery";
 /**
 Core script to handle the entire theme and core functions
 **/
-var App = function () {
+var App = (function () {
 
     // IE mode
     var isRTL = false;
@@ -57,6 +57,7 @@ var App = function () {
         // reinitialize other subscribed elements
         for (var i = 0; i < resizeHandlers.length; i++) {
             var each = resizeHandlers[i];
+
             each.call();
         }
     };
@@ -64,10 +65,12 @@ var App = function () {
     var handleOnResize = function () {
         var windowWidth = $(window).width();
         var resize;
+
         if (isIE8) {
             var currheight;
+
             $(window).resize(function () {
-                if (currheight == document.documentElement.clientHeight) {
+                if (currheight === document.documentElement.clientHeight) {
                     return; //quite event since only body resized not window.
                 }
                 if (resize) {
@@ -80,7 +83,7 @@ var App = function () {
             });
         } else {
             $(window).resize(function () {
-                if ($(window).width() != windowWidth) {
+                if ($(window).width() !== windowWidth) {
                     windowWidth = $(window).width();
                     if (resize) {
                         clearTimeout(resize);
@@ -117,6 +120,7 @@ var App = function () {
         $('body').on('click', '.portlet > .portlet-title .fullscreen', function (e) {
             e.preventDefault();
             var portlet = $(this).closest(".portlet");
+
             if (portlet.hasClass('portlet-fullscreen')) {
                 $(this).removeClass('on');
                 portlet.removeClass('portlet-fullscreen');
@@ -140,6 +144,7 @@ var App = function () {
             var el = $(this).closest(".portlet").children(".portlet-body");
             var url = $(this).attr("data-url");
             var error = $(this).attr("data-error-display");
+
             if (url) {
                 App.blockUI({
                     target: el,
@@ -159,9 +164,10 @@ var App = function () {
                     error: function (xhr, ajaxOptions, thrownError) {
                         App.unblockUI(el);
                         var msg = 'Error on reloading the content. Please check your connection and try again.';
-                        if (error == "toastr" && toastr) {
+
+                        if (error === "toastr" && toastr) {
                             toastr.error(msg);
-                        } else if (error == "notific8" && $.notific8) {
+                        } else if (error === "notific8" && $.notific8) {
                             $.notific8('zindex', 11500);
                             $.notific8(msg, {
                                 theme: 'ruby',
@@ -191,6 +197,7 @@ var App = function () {
         $('body').on('click', '.portlet > .portlet-title > .tools > .collapse, .portlet .portlet-title > .tools > .expand', function (e) {
             e.preventDefault();
             var el = $(this).closest(".portlet").children(".portlet-body");
+
             if ($(this).hasClass("collapse")) {
                 $(this).removeClass("collapse").addClass("expand");
                 el.slideUp(200);
@@ -227,10 +234,11 @@ var App = function () {
             // Material design click effect
             // credit where credit's due; http://thecodeplayer.com/walkthrough/ripple-click-effect-google-material-design       
             var element, circle, d, x, y;
+
             $('body').on('click', 'a.btn, button.btn, input.btn, label.btn', function (e) {
                 element = $(this);
 
-                if (element.find(".md-click-circle").length == 0) {
+                if (element.find(".md-click-circle").length === 0) {
                     element.prepend("<span class='md-click-circle'></span>");
                 }
 
@@ -255,7 +263,7 @@ var App = function () {
 
         // Floating labels
         var handleInput = function (el) {
-            if (el.val() != "") {
+            if (el.val() !== "") {
                 el.addClass('edited');
             } else {
                 el.removeClass('edited');
@@ -329,8 +337,10 @@ var App = function () {
         //activate tab if tab id provided in the URL
         if (encodeURI(location.hash)) {
             var tabid = encodeURI(location.hash.substr(1));
+
             $('a[href="#' + tabid + '"]').parents('.tab-pane:hidden').each(function () {
                 var tabid = $(this).attr("id");
+
                 $('a[href="#' + tabid + '"]').click();
             });
             $('a[href="#' + tabid + '"]').click();
@@ -347,7 +357,7 @@ var App = function () {
     var handleModals = function () {
         // fix stackable modal issue: when 2 or more modals opened, closing one of modal will remove .modal-open class. 
         $('body').on('hide.bs.modal', function () {
-            if ($('.modal:visible').length> 1 && $('html').hasClass('modal-open') === false) {
+            if ($('.modal:visible').length > 1 && $('html').hasClass('modal-open') === false) {
                 $('html').addClass('modal-open');
             } else if ($('.modal:visible').length <= 1) {
                 $('html').removeClass('modal-open');
@@ -435,7 +445,7 @@ var App = function () {
 
     // Handle textarea autosize 
     var handleTextareaAutosize = function () {
-        if (typeof (autosize) == "function") {
+        if (typeof (autosize) === "function") {
             autosize(document.querySelector('textarea.autosizeme'));
         }
     }
@@ -464,7 +474,7 @@ var App = function () {
 
     // Handles Image Preview using jQuery Fancybox plugin
     var handleFancybox = function () {
-        if (!jQuery.fancybox) {
+        if (!$.fancybox) {
             return;
         }
 
@@ -508,13 +518,13 @@ var App = function () {
                 }
 
                 input.focus(function () {
-                    if (input.val() == input.attr('placeholder')) {
+                    if (input.val() === input.attr('placeholder')) {
                         input.val('');
                     }
                 });
 
                 input.blur(function () {
-                    if (input.val() === '' || input.val() == input.attr('placeholder')) {
+                    if (input.val() === '' || input.val() === input.attr('placeholder')) {
                         input.val(input.attr('placeholder'));
                     }
                 });
@@ -544,13 +554,14 @@ var App = function () {
             var offset = parseInt(parent.attr('data-offset') ? parent.attr('data-offset') : 0);
 
             items.each(function () {
-                if ($(this).attr('data-height') == "height") {
+                if ($(this).attr('data-height') === "height") {
                     $(this).css('height', '');
                 } else {
                     $(this).css('min-height', '');
                 }
 
-                var height_ = (mode == 'base-height' ? $(this).outerHeight() : $(this).outerHeight(true));
+                var height_ = (mode === 'base-height' ? $(this).outerHeight() : $(this).outerHeight(true));
+
                 if (height_ > height) {
                     height = height_;
                 }
@@ -559,7 +570,7 @@ var App = function () {
             height = height + offset;
 
             items.each(function () {
-                if ($(this).attr('data-height') == "height") {
+                if ($(this).attr('data-height') === "height") {
                     $(this).css('height', height);
                 } else {
                     $(this).css('min-height', height);
@@ -691,8 +702,8 @@ var App = function () {
                     railColor: ($(this).attr("data-rail-color") ? $(this).attr("data-rail-color") : '#eaeaea'),
                     position: isRTL ? 'left' : 'right',
                     height: height,
-                    alwaysVisible: ($(this).attr("data-always-visible") == "1" ? true : false),
-                    railVisible: ($(this).attr("data-rail-visible") == "1" ? true : false),
+                    alwaysVisible: ($(this).attr("data-always-visible") === "1" ? true : false),
+                    railVisible: ($(this).attr("data-rail-visible") === "1" ? true : false),
                     disableFadeOut: true
                 });
 
@@ -700,14 +711,14 @@ var App = function () {
             });
         },
 
-        destroySlimScroll: function (el) {            
+        destroySlimScroll: function (el) {
             if (!$().scroll()) {
                 return;
             }
 
             $(el).each(function () {
                 if ($(this).attr("data-initialized") === "1") { // destroy existing instance before updating the height
-                    
+
                     $(this).removeAttr("data-initialized");
                     $(this).removeAttr("style");
 
@@ -755,6 +766,7 @@ var App = function () {
         blockUI: function (options) {
             options = $.extend(true, {}, options);
             var html = '';
+
             if (options.animate) {
                 html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '">' + '<div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>' + '</div>';
             } else if (options.iconOnly) {
@@ -767,6 +779,7 @@ var App = function () {
 
             if (options.target) { // element blocking
                 var el = $(options.target);
+
                 if (el.height() <= ($(window).height())) {
                     options.cenrerY = true;
                 }
@@ -867,7 +880,7 @@ var App = function () {
                     }
                 }
             } else {
-                if (options.place == "append") {
+                if (options.place === "append") {
                     $(options.container).append(html);
                 } else {
                     $(options.container).prepend(html);
@@ -908,7 +921,7 @@ var App = function () {
 
             for (i = 0; i < params.length; i++) {
                 val = params[i].split("=");
-                if (val[0] == paramName) {
+                if (val[0] === paramName) {
                     return unescape(val[1]);
                 }
             }
@@ -929,6 +942,7 @@ var App = function () {
         getViewPort: function () {
             var e = window,
                 a = 'inner';
+
             if (!('innerWidth' in window)) {
                 a = 'client';
                 e = document.documentElement || document.body;
@@ -961,7 +975,7 @@ var App = function () {
 
         // check IE8 mode
         isAngularJsApp: function () {
-            return (typeof angular == 'undefined') ? false : true;
+            return (typeof angular === 'undefined') ? false : true;
         },
 
         getAssetsPath: function () {
@@ -996,9 +1010,8 @@ var App = function () {
         getBrandColor: function (name) {
             if (brandColors[name]) {
                 return brandColors[name];
-            } else {
-                return '';
             }
+            return '';
         },
 
         getResponsiveBreakpoint: function (size) {
@@ -1014,7 +1027,7 @@ var App = function () {
         }
     };
 
-}()
+})();
 
 // // // <!-- END THEME LAYOUT SCRIPTS -->
 
