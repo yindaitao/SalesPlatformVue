@@ -188,7 +188,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>                
+            </li>
         </ul>
         <!-- END SIDEBAR MENU -->
     </div>
@@ -196,7 +196,7 @@
 
 <script>
 //引用jQuery库
-import $ from 'jquery';
+import $ from "jquery";
 
 import relayApi from "../Api/relayApi";
 import requestApi from "../Api/requestApi";
@@ -211,7 +211,7 @@ export default {
     };
   },
   created: function() {
-    let vue = this;
+    let mythis = this;
     //获取当前用户可使用的菜单项
     requestApi.cookie = cookie.value;
     requestApi.path = "/api/Menu/Get";
@@ -243,13 +243,15 @@ export default {
         let jsonData = JSON.parse(response);
         console.log(jsonData);
         jsonData.forEach(item => {
-          vue.menus.push(item);
+          mythis.menus.push(item);
         });
       }
     }).fail(function(error) {
       console.log("error");
       console.log(error);
     });
+    console.log(mythis.$root.$children[0]);
+    mythis.$root.$children[0].loading = false;
   },
   components: {
     myMenuItem
@@ -257,4 +259,3 @@ export default {
   methods: {}
 };
 </script>
-  

@@ -15,10 +15,12 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 var vm = new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App }
+    el: '#app',
+    router,
+    template: '<App/>',
+    components: {
+        App
+    }
 })
 
-window.App = vm
+window.vm = vm

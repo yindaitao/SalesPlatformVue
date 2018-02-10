@@ -1,10 +1,10 @@
 <template>
-  <div class="login">
+    <div class="login">
         <!-- BEGIN LOGO -->
         <div class="logo">
             <a>
-                <img src="../assets/logo-big-white.png"/> 
-                </a>
+                <img src="../assets/logo-big-white.png" />
+            </a>
         </div>
         <!-- END LOGO -->
 
@@ -12,31 +12,24 @@
         <div class="content">
             <!-- BEGIN LOGIN FORM -->
             <div class="login-form">
+                <div class="alert alert-danger" v-bind:class="{'display-hide':errorMessage===null}" @click="closeMessage">
+                    <button class="close" data-close="alert"></button>
+                    <span> {{errorMessage}} </span>
+                </div>
 
-                <div class="form-title" v-if="errorMessage===null">
+                <div class="form-title" v-bind:class="{'display-hide':errorMessage!==null}">
                     <span class="form-title">Welcome.</span>
                     <span class="form-subtitle">Please login.</span>
                 </div>
                 <div class="form-group">
                     <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-                    <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username" v-model="userName" /> 
+                    <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username" v-model="userName" />
                 </div>
                 <div class="form-group">
-                    <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" v-model="password" /> 
+                    <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" v-model="password" v-on:keypress="nextInputFocus" />
                 </div>
                 <div class="form-actions">
                     <button type="submit" v-on:click="submit" class="btn red btn-block uppercase">Login</button>
-                </div>
-                <div class="form-actions">
-                    <div class="pull-left">
-                        <label class="rememberme mt-checkbox mt-checkbox-outline">
-                            <input type="checkbox" name="remember" value="1" /> Remember me
-                            <span></span>
-                        </label>
-                    </div>
-                    <div class="pull-right forget-password-block">
-                        <a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
-                    </div>
                 </div>
 
             </div>
@@ -44,7 +37,7 @@
         </div>
         <div class="copyright"> 2013 © Dedtech. </div>
         <!-- END LOGIN -->
-  </div>
+    </div>
 </template>
 
 <script>
@@ -60,8 +53,12 @@ import * as md5 from "../assets/md5encrypt";
 
 export default {
   name: "Login",
+  beforeCreate: function() {},
   //实例创建后执行此方法
   created: function() {
+    console.log(this.$root.$children[0]);
+    //关闭加载动画
+    this.$root.$children[0].loading = false;
     //加载背景图
     $("body").backstretch(
       [
@@ -84,11 +81,18 @@ export default {
     };
   },
   methods: {
+    nextInputFocus: function(event) {
+      console.log(event);
+      if (event.charCode === 13 && event.target.name === "password") {
+        this.submit();
+      }
+    },
     submit: function() {
-      var paw = md5.hex_md5(this.password);
+      let mythis = this;
+      let paw = md5.hex_md5(mythis.password);
       requestApi.path = "/Token";
       requestApi.data =
-        "grant_type=password&username=" + this.userName + "&password=" + paw;
+        "grant_type=password&username=" + mythis.userName + "&password=" + paw;
       //访问
       $.ajax({
         url: relayApi,
@@ -97,13 +101,18 @@ export default {
         success: function(response) {
           cookie.login = true;
           cookie.value = response.cookie;
+          mythis.$parent.loading = true; //启动loading动画
           router.push("Platform");
           console.log(response);
         }
       }).fail(function(error) {
         console.log(error.responseText);
-        this.errorMessage = error.responseText;
+        let errObj = JSON.parse(error.responseText);
+        mythis.errorMessage = errObj.error_description;
       });
+    },
+    closeMessage: function() {
+      this.errorMessage = null;
     }
   },
   //实例被销毁时执行
@@ -271,29 +280,8 @@ Login page
 }
 
 .login .btn {
-  background-color: #5995bb;
-  border: 1px solid #72a9cc;
-  color: #8fc4e5;
   font-weight: 600;
   padding: 10px 25px !important;
-}
-.login .btn:hover {
-  border: 1px solid #90bbd7;
-  background-color: #5995bb;
-  color: #8fc4e5;
-}
-
-.login .btn-default {
-  background-color: #5995bb;
-  border: 1px solid #72a9cc;
-  color: #8fc4e5;
-  font-weight: 600;
-  padding: 10px 25px !important;
-}
-.login .btn-default:hover {
-  border: 1px solid #90bbd7;
-  background-color: #5995bb;
-  color: #8fc4e5;
 }
 
 .login .content .forget-password {
