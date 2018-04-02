@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/Models/Login'
-import Platform from '@/Models/Platform'
+import Login from '@/View/Login'
+import Platform from '@/View/Platform'
 import cookie from '../Api/cookie'
 
-import errorPage from '@/Models/404'
-import SalesOrderList from '@/models/SalesOrderList'
+import errorPage from '@/View/404'
+import SalesOrderList from '@/View/SalesOrderList'
 
 // 插件
 Vue.use(Router)
