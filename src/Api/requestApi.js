@@ -6,8 +6,8 @@ import cookie from './cookie'
 
 export default {
   protocal: 'http',
-  host: '182.92.232.233',
-  port: '8884',
+  host: '203.100.82.47',
+  port: '11274',
   path: null,
   method: 'POST',
   contentType: 'application/json',
